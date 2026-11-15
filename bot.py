@@ -10,6 +10,13 @@ BUTTON_COUNTS = {
     "5️⃣": 5,
     "🔟": 10,
 }
+HELP_TEXT = (
+    "Я создаю синтетические данные пользователей и отправляю их JSON-файлом.\n"
+    "Доступно 1, 2, 5 или 10 пользователей.\n\n"
+    "Команды:\n"
+    "/start — открыть меню\n"
+    "/help — показать эту справку"
+)
 
 
 def create_menu() -> types.ReplyKeyboardMarkup:
@@ -34,6 +41,14 @@ def register_handlers(bot: TeleBot) -> None:
                 "Привет! Это бот для генерации тестовых пользователей. "
                 "Выбери нужное количество 👇"
             ),
+            reply_markup=create_menu(),
+        )
+
+    @bot.message_handler(commands=["help"])
+    def handle_help(message: types.Message) -> None:
+        bot.send_message(
+            chat_id=message.chat.id,
+            text=HELP_TEXT,
             reply_markup=create_menu(),
         )
 

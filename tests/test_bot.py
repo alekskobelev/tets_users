@@ -33,7 +33,7 @@ class BotHandlerTests(unittest.TestCase):
     def test_sends_generated_users_as_json_document(self):
         message = SimpleNamespace(chat=SimpleNamespace(id=42), text="2️⃣")
 
-        self.bot.handlers[1](message)
+        self.bot.handlers[2](message)
 
         document = self.bot.documents[0]
         self.assertEqual(document["chat_id"], 42)
@@ -44,11 +44,20 @@ class BotHandlerTests(unittest.TestCase):
     def test_reprompts_on_unrecognized_message(self):
         message = SimpleNamespace(chat=SimpleNamespace(id=42), text=None)
 
-        self.bot.handlers[1](message)
+        self.bot.handlers[2](message)
 
         self.assertEqual(self.bot.documents, [])
         self.assertEqual(len(self.bot.messages), 1)
         self.assertIn("Не понимаю", self.bot.messages[0]["text"])
+
+    def test_help_shows_commands_and_generation_options(self):
+        message = SimpleNamespace(chat=SimpleNamespace(id=42), text="/help")
+
+        self.bot.handlers[1](message)
+
+        self.assertIn("/start", self.bot.messages[0]["text"])
+        self.assertIn("/help", self.bot.messages[0]["text"])
+        self.assertIn("1, 2, 5 или 10", self.bot.messages[0]["text"])
 
 
 if __name__ == "__main__":
