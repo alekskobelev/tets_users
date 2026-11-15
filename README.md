@@ -1,60 +1,41 @@
-<h2>Телеграм бот, помогающий сгенерировать тестовые данные</h2>
+# Генератор тестовых пользователей
 
-> **Статус проекта:**
->
-> 🟢 Поддерживается (активный) 
+Telegram-бот генерирует синтетические данные пользователей и отправляет результат JSON-файлом. Поддерживаются наборы из 1, 2, 5 или 10 пользователей.
 
-## Цели и Задачи
-* Бот помогает быстро сгенерировать данные для тестовых пользователей
-* Бот принимает на входе число N, а на выходе создаёт N пользователей со случайно заполненными полями: имя, почта, адрес, логин, пароль
+Для генерации используются Faker и криптографически стойкий генератор паролей из стандартной библиотеки Python. Не используйте созданные данные как реальные контактные или учетные данные.
 
-## 🖼 Скриншоты
+## Требования
 
-Стартовое меню:
+- Python 3.10 или новее
+- Токен Telegram-бота от [@BotFather](https://t.me/BotFather)
 
-![image](https://raw.githubusercontent.com/German-D/test_users/main/static/menu.png)
+## Установка и запуск в Windows PowerShell
 
-После выбора количества пользователей:
-
-![image](https://raw.githubusercontent.com/German-D/test_users/main/static/generate.png)
-
-## 💻 Технологии
-
-* Python
-* Библиотека `telebot`
-* Библиотека `faker`
-
-## ⏬ Установка на локальном компьютере
-
-1. Скачать проект
-
-2. Создать бота и через [@BotFather](https://t.me/BotFather) и вставить в проекте свой токен от бота
-
-3. Создаём виртуальное окружение внутри папки проекта.
-Далее команды для MacOS (для windows инуструкция [есть вот тут](https://realpython.com/python-virtual-environments-a-primer/#create-it))
-
-``` markdown
-python3 -m venv venv
+```powershell
+py -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install -r requirements.txt
+$env:TELEGRAM_BOT_TOKEN = "ваш_токен_бота"
+python main.py
 ```
 
-``` markdown
-source venv/bin/activate
-```
-4. Устанавливаем библиотеки
+Для macOS или Linux активируйте окружение командой `source .venv/bin/activate`, задайте токен командой `export TELEGRAM_BOT_TOKEN="ваш_токен_бота"` и запустите `python main.py`.
 
-``` markdown
-python3 -m pip install pyTelegramBotAPI
-```
+Токен хранится в переменной окружения и не должен добавляться в исходный код или публиковаться в репозитории.
 
-``` markdown
-python3 -m pip install faker
+## Тесты
+
+```powershell
+python -m unittest discover -s tests
 ```
 
-5. Запускаем
-``` markdown
-python3 test_users_bot.py
-```
+## Структура проекта
+
+- `main.py` — проверка конфигурации и запуск бота
+- `bot.py` — Telegram-меню и обработчики сообщений
+- `user_data.py` — генерация и сериализация тестовых данных
+- `tests/` — автоматические тесты приложения
 
 ## Автор
 
-Герман Дольников ([@dolnikov](https://t.me/dolnikov))
+[alekskobelev](https://github.com/alekskobelev)
